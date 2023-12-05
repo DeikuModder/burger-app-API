@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
 import Burger from "../schemas/burger";
-const uri =
-  "mongodb+srv://Gabriel:putongo55555@burguer-app.nj6tkpl.mongodb.net/?retryWrites=true&w=majority";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@burguer-app.nj6tkpl.mongodb.net/?retryWrites=true&w=majority`;
 
 async function connect() {
   try {
