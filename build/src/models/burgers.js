@@ -15,7 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BurgersModels = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const burger_1 = __importDefault(require("../schemas/burger"));
-const uri = "mongodb+srv://Gabriel:putongo55555@burguer-app.nj6tkpl.mongodb.net/?retryWrites=true&w=majority";
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@burguer-app.nj6tkpl.mongodb.net/?retryWrites=true&w=majority`;
 function connect() {
     return __awaiter(this, void 0, void 0, function* () {
         try {

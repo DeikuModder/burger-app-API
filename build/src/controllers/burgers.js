@@ -30,3 +30,9 @@ class BurgersController {
     }
 }
 exports.BurgersController = BurgersController;
+/*
+todo:
+finish the CRUD
+add auth login process
+
+*/
