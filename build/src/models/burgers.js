@@ -33,14 +33,86 @@ function connect() {
 }
 connect();
 class BurgersModels {
-    static getAll() {
+    static getAll({ name }) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                if (name) {
+                    const burgerByName = yield burger_1.default.find({ name: name });
+                    return burgerByName;
+                }
                 const burgers = yield burger_1.default.find();
                 return burgers;
             }
             catch (error) {
                 console.error(error);
+                mongoose_1.default.connection.close();
+            }
+        });
+    }
+    static getById({ id }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const burgerById = yield burger_1.default.findById(id);
+                return burgerById;
+            }
+            catch (error) {
+                console.error(error);
+                mongoose_1.default.connection.close();
+            }
+        });
+    }
+    static create(newBurgerData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const checkBurger = yield burger_1.default.find({
+                    name: newBurgerData.name,
+                    price: newBurgerData.price,
+                });
+                if (checkBurger.length > 0) {
+                    return { message: "Burger already exists" };
+                }
+                const newBurger = new burger_1.default(newBurgerData);
+                const result = yield newBurger.save();
+                return result;
+            }
+            catch (error) {
+                console.error(error);
+                mongoose_1.default.connection.close();
+            }
+        });
+    }
+    static delete({ id }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const burger = yield burger_1.default.findByIdAndDelete(id);
+                if (burger) {
+                    return "Document deleted succesfully";
+                }
+                return "Document doesn't exist";
+            }
+            catch (error) {
+                console.error(error);
+                mongoose_1.default.connection.close();
+            }
+        });
+    }
+    static update({ id, newBurgerData, }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const burger = yield burger_1.default.findByIdAndUpdate(id, newBurgerData, {
+                    new: true,
+                    runValidators: true,
+                });
+                if (burger) {
+                    return burger;
+                }
+                else {
+                    return { message: "Error has ocurred" };
+                }
+            }
+            catch (error) {
+                console.error(error);
+                mongoose_1.default.connection.close();
             }
         });
     }
