@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "name": "burger-app-api",
+  "builds": [
+    {
+      "src": "build/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "build/index.js"
+    }
+  ]
+}
