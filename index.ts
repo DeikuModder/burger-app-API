@@ -1,6 +1,6 @@
 import express from "express";
 import { corsMiddleware } from "./src/middlewares/cors";
-import burgersRouter from "./src/routes/burgers";
+import burgersRouter from "./src/v1/routes/burgers";
 
 const PORT = process.env.PORT || 1235;
 const app = express();
@@ -13,7 +13,7 @@ app.get("/", (_req, res) => {
   res.send("Hello World");
 });
 
-app.use("/burgers", burgersRouter);
+app.use("/api/v1/burgers", burgersRouter);
 
 app.use((_req, res) => {
   res.status(404).send("404 not found");
