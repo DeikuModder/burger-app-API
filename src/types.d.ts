@@ -7,3 +7,9 @@ export interface BurgerInterface {
     price: number | null | undefined;
   };
 }
+
+export interface UserInterface {
+  username: string;
+  passwordHash: string;
+  email: string;
+}

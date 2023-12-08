@@ -1,0 +1,13 @@
+--Crear usuarios en mongoDB con mongoose, nodejs y express--
+
+Lo primero que hay que hacer es crear el esquema de Usuarios, en el cual vamos a crear una propiedad que haga referencia a la coleccion de Burgers, para poder acceder de una a otra
+
+Tambien hay que asegurar de no devolver la contraseña del usuario en el documento.
+
+Usar un hash encrypter unidireccional para la password, npm i bcrypt
+
+Con los datos del usuario guardados en la BD, ahora queda implementar el login
+
+--Crear login de usuarios--
+
+Para el login existen muchos metodos, el implementado aqui será, la autenticacion mediante JSON Web Tokens (JWT), si el usario esta registrado en la BD, entonces podra logearse, al logearse, se crea una JWT, que se puede almacenar en el localStorage para hacer una sesion persistente

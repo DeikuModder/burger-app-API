@@ -1,25 +1,6 @@
 import mongoose from "mongoose";
 import Burger from "../schemas/burger";
-import dotenv from "dotenv";
 import { BurgerInterface } from "../types";
-
-dotenv.config();
-
-const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@burguer-app.nj6tkpl.mongodb.net/?retryWrites=true&w=majority`;
-
-async function connect() {
-  try {
-    await mongoose.connect(uri, {
-      dbName: "burguers",
-    });
-    console.log("Connected to Database!");
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-connect();
-
 export class BurgersModels {
   static async getAll<T>({ name }: { name: T }) {
     try {
