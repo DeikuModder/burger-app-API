@@ -1,5 +1,6 @@
 import cors from "cors";
 
+//in case of only authorize following url to fetch data
 export const corsMiddleware = () =>
   cors({
     origin: (origin, callback) => {
