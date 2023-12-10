@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 export interface BurgerInterface {
   name: string;
   ingredients: string[];
@@ -12,4 +14,11 @@ export interface UserInterface {
   username: string;
   passwordHash: string;
   email: string;
+}
+
+export type LogedInUser = Omit<UserInterface, "email">;
+
+export interface UserForToken {
+  id: mongoose.Types.ObjectId;
+  username: string;
 }

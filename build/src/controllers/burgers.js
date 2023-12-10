@@ -96,8 +96,3 @@ class BurgersController {
     }
 }
 exports.BurgersController = BurgersController;
-/*
-todo:
-add auth login process
-
-*/

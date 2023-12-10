@@ -4,7 +4,7 @@ import { UsersModel } from "../models/users";
 import { UserInterface } from "../types";
 
 export class UsersController {
-  static async createUser(req: Request, res: Response) {
+  static async register(req: Request, res: Response) {
     try {
       const { username, password, email } = req.body;
 
@@ -16,7 +16,7 @@ export class UsersController {
         email,
       };
 
-      const savedUser = await UsersModel.createUser(newUserObject);
+      const savedUser = await UsersModel.register(newUserObject);
 
       res.json(savedUser);
     } catch (error) {

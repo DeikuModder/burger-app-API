@@ -1,16 +1,15 @@
 import { Request, Response } from "express";
-import { UserInterface } from "../types";
+import { LogedInUser } from "../types";
 import { LoginModel } from "../models/login";
 
 export class LoginController {
   static async login(req: Request, res: Response) {
     try {
-      const { username, password, email } = req.body;
+      const { username, password } = req.body;
 
-      const userObject: UserInterface = {
+      const userObject: LogedInUser = {
         username,
         passwordHash: password,
-        email,
       };
 
       const checkUser = await LoginModel.login(userObject);

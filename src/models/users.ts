@@ -3,10 +3,14 @@ import User from "../schemas/user";
 import { UserInterface } from "../types";
 
 export class UsersModel {
-  static async createUser(userObject: UserInterface) {
+  static async register(userObject: UserInterface) {
     try {
-      const checkUsername = await User.find({ username: userObject.username });
-      const checkEmail = await User.find({ email: userObject.email });
+      const checkUsername: UserInterface[] | undefined = await User.find({
+        username: userObject.username,
+      });
+      const checkEmail: UserInterface[] | undefined = await User.find({
+        email: userObject.email,
+      });
 
       if (checkUsername.length > 0 || checkEmail.length > 0) {
         return { message: "Username or Email already exists" };

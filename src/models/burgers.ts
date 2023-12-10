@@ -5,11 +5,23 @@ export class BurgersModels {
   static async getAll<T>({ name }: { name: T }) {
     try {
       if (name) {
-        const burgerByName = await Burger.find({ name: name });
+        const burgerByName: BurgerInterface[] | undefined = await Burger.find({
+          name: name,
+        });
+
+        if (burgerByName.length <= 0) {
+          return { message: "Burger not found" };
+        }
+
         return burgerByName;
       }
 
-      const burgers = await Burger.find();
+      const burgers: BurgerInterface[] | undefined = await Burger.find();
+
+      if (burgers.length <= 0) {
+        return { message: "No burgers on DataBase" };
+      }
+
       return burgers;
     } catch (error) {
       console.error(error);
@@ -19,7 +31,13 @@ export class BurgersModels {
 
   static async getById<T>({ id }: { id: T }) {
     try {
-      const burgerById = await Burger.findById(id);
+      const burgerById: BurgerInterface | null | undefined =
+        await Burger.findById(id);
+
+      if (burgerById === null) {
+        return { message: "Burger not found" };
+      }
+
       return burgerById;
     } catch (error) {
       console.error(error);
@@ -29,7 +47,7 @@ export class BurgersModels {
 
   static async create(newBurgerData: BurgerInterface) {
     try {
-      const checkBurger = await Burger.find({
+      const checkBurger: BurgerInterface[] | undefined = await Burger.find({
         name: newBurgerData.name,
         price: newBurgerData.price,
       });
@@ -70,10 +88,11 @@ export class BurgersModels {
     newBurgerData: BurgerInterface;
   }) {
     try {
-      const burger = await Burger.findByIdAndUpdate(id, newBurgerData, {
-        new: true,
-        runValidators: true,
-      });
+      const burger: BurgerInterface | null | undefined =
+        await Burger.findByIdAndUpdate(id, newBurgerData, {
+          new: true,
+          runValidators: true,
+        });
 
       if (burger) {
         return burger;

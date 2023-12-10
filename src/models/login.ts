@@ -3,12 +3,12 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import User from "../schemas/user";
-import { UserInterface } from "../types";
+import { LogedInUser, UserForToken } from "../types";
 
 dotenv.config();
 
 export class LoginModel {
-  static async login(userObject: UserInterface) {
+  static async login(userObject: LogedInUser) {
     try {
       const user = await User.findOne({ username: userObject.username });
       const isPasswordCorrect =
@@ -20,7 +20,7 @@ export class LoginModel {
         return { error: "Invalid user or password" };
       }
 
-      const userForToken = {
+      const userForToken: UserForToken = {
         id: user._id,
         username: user.username,
       };

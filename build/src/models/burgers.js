@@ -15,32 +15,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BurgersModels = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const burger_1 = __importDefault(require("../schemas/burger"));
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@burguer-app.nj6tkpl.mongodb.net/?retryWrites=true&w=majority`;
-function connect() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            yield mongoose_1.default.connect(uri, {
-                dbName: "burguers",
-            });
-            console.log("Connected to Database!");
-        }
-        catch (error) {
-            console.error(error);
-        }
-    });
-}
-connect();
 class BurgersModels {
     static getAll({ name }) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 if (name) {
-                    const burgerByName = yield burger_1.default.find({ name: name });
+                    const burgerByName = yield burger_1.default.find({
+                        name: name,
+                    });
+                    if (burgerByName.length <= 0) {
+                        return { message: "Burger not found" };
+                    }
                     return burgerByName;
                 }
                 const burgers = yield burger_1.default.find();
+                if (burgers.length <= 0) {
+                    return { message: "No burgers on DataBase" };
+                }
                 return burgers;
             }
             catch (error) {
@@ -53,6 +44,9 @@ class BurgersModels {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const burgerById = yield burger_1.default.findById(id);
+                if (burgerById === null) {
+                    return { message: "Burger not found" };
+                }
                 return burgerById;
             }
             catch (error) {

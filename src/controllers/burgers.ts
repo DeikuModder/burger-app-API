@@ -65,9 +65,3 @@ export class BurgersController {
     }
   }
 }
-
-/*
-todo:
-add auth login process
-
-*/

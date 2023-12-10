@@ -9,6 +9,6 @@ const burgerSchema = new mongoose_1.Schema({
         content: { type: [String], required: false },
         price: { type: Number },
     },
-});
+}, { versionKey: false });
 const Burger = (0, mongoose_1.model)("Burger", burgerSchema, "burguers_menu");
 exports.default = Burger;
