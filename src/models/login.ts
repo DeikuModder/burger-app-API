@@ -34,7 +34,6 @@ export class LoginModel {
       };
     } catch (error) {
       console.error(error);
-      mongoose.connection.close();
     }
   }
 }

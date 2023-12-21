@@ -17,13 +17,14 @@ function authAdmin(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const authorization = req.get("authorization");
+            const adminId = process.env.ADMINID;
             let token = "";
             let decodedToken;
             if (authorization && authorization.toLowerCase().startsWith("bearer")) {
                 token = authorization.substring(7);
             }
             decodedToken = jsonwebtoken_1.default.verify(token, process.env.SECRET);
-            if (decodedToken.username !== "Gab") {
+            if (decodedToken.username !== "Gab" && decodedToken.id !== adminId) {
                 return res.status(405).send("You don't have admin permissions");
             }
             next();
