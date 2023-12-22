@@ -23,7 +23,6 @@ export class UsersModel {
       return newUser;
     } catch (error) {
       console.error(error);
-      mongoose.connection.close();
     }
   }
 }

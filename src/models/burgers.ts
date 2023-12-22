@@ -25,7 +25,6 @@ export class BurgersModels {
       return burgers;
     } catch (error) {
       console.error(error);
-      mongoose.connection.close();
     }
   }
 
@@ -41,7 +40,6 @@ export class BurgersModels {
       return burgerById;
     } catch (error) {
       console.error(error);
-      mongoose.connection.close();
     }
   }
 
@@ -61,7 +59,6 @@ export class BurgersModels {
       return result;
     } catch (error) {
       console.error(error);
-      mongoose.connection.close();
     }
   }
 
@@ -76,7 +73,6 @@ export class BurgersModels {
       return "Document doesn't exist";
     } catch (error) {
       console.error(error);
-      mongoose.connection.close();
     }
   }
 
@@ -101,7 +97,6 @@ export class BurgersModels {
       }
     } catch (error) {
       console.error(error);
-      mongoose.connection.close();
     }
   }
 }
