@@ -2,9 +2,9 @@ import express from "express";
 import cors from "cors";
 import burgersRouter from "./src/v1/routes/burgers";
 import usersRouter from "./src/v1/routes/users";
-import connectDB from "./src/utils";
 import loginRouter from "./src/v1/routes/login";
 import HomeMessage from "./src/welcomeMessage";
+import { connectDB } from "./src/utils";
 
 const PORT = process.env.PORT || 1235;
 const app = express();

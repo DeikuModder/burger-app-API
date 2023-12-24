@@ -17,6 +17,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const user_1 = __importDefault(require("../schemas/user"));
+const utils_1 = require("../utils");
 dotenv_1.default.config();
 class LoginModel {
     static login(userObject) {
@@ -41,7 +42,8 @@ class LoginModel {
                 };
             }
             catch (error) {
-                console.error(error);
+                (0, utils_1.restartConnection)();
+                return { error: `${error}` };
             }
         });
     }

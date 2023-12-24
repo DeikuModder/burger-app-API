@@ -7,7 +7,10 @@ export class BurgersController {
     try {
       const { name } = req.query;
       const burgers = await BurgersModels.getAll<typeof name>({ name });
-      res.json(burgers);
+
+      burgers.hasOwnProperty("error")
+        ? res.status(400).json(burgers)
+        : res.json(burgers);
     } catch (error) {
       res.status(500).send(error);
     }
@@ -17,7 +20,10 @@ export class BurgersController {
     try {
       const { id } = req.params;
       const burgers = await BurgersModels.getById<typeof id>({ id });
-      res.json(burgers);
+
+      burgers?.hasOwnProperty("error")
+        ? res.status(400).json(burgers)
+        : res.json(burgers);
     } catch (error) {
       res.status(500).send(error);
     }
@@ -30,11 +36,9 @@ export class BurgersController {
       const newBurger: BurgerInterface = { name, price, ...data };
       const burgers = await BurgersModels.create(newBurger);
 
-      if (burgers) {
-        res.status(201).json(burgers);
-      } else {
-        res.status(400);
-      }
+      burgers?.hasOwnProperty("error")
+        ? res.status(400).json(burgers)
+        : res.json(burgers);
     } catch (error) {
       res.status(500).send(error);
     }
@@ -44,7 +48,10 @@ export class BurgersController {
     try {
       const { id } = req.params;
       const burgers = await BurgersModels.delete<typeof id>({ id });
-      res.send(burgers);
+
+      burgers.hasOwnProperty("error")
+        ? res.status(400).json(burgers)
+        : res.json(burgers);
     } catch (error) {
       res.status(500).send(error);
     }
@@ -59,9 +66,12 @@ export class BurgersController {
         id,
         newBurgerData,
       });
-      res.json(burgers);
+
+      burgers.hasOwnProperty("error")
+        ? res.status(400).json(burgers)
+        : res.json(burgers);
     } catch (error) {
-      res.status(500).send(error);
+      res.status(500).send(`${error}`);
     }
   }
 }

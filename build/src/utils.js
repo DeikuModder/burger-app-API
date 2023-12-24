@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.restartConnection = exports.connectDB = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
 function connectDB() {
@@ -32,4 +33,13 @@ function connectDB() {
     }
     connect();
 }
-exports.default = connectDB;
+exports.connectDB = connectDB;
+function restartConnection() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield mongoose_1.default.disconnect();
+        setTimeout(() => {
+            connectDB();
+        }, 5000);
+    });
+}
+exports.restartConnection = restartConnection;

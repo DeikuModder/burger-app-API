@@ -18,9 +18,11 @@ export class UsersController {
 
       const savedUser = await UsersModel.register(newUserObject);
 
-      res.json(savedUser);
+      savedUser.hasOwnProperty("error")
+        ? res.status(400).json(savedUser)
+        : res.json(savedUser);
     } catch (error) {
-      console.error(error);
+      res.status(500).send(`${error}`);
     }
   }
 }

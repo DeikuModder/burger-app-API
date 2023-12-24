@@ -13,8 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BurgersModels = void 0;
-const mongoose_1 = __importDefault(require("mongoose"));
 const burger_1 = __importDefault(require("../schemas/burger"));
+const utils_1 = require("../utils");
 class BurgersModels {
     static getAll({ name }) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -24,19 +24,19 @@ class BurgersModels {
                         name: name,
                     });
                     if (burgerByName.length <= 0) {
-                        return { message: "Burger not found" };
+                        return { error: "Burger not found" };
                     }
                     return burgerByName;
                 }
                 const burgers = yield burger_1.default.find();
                 if (burgers.length <= 0) {
-                    return { message: "No burgers on DataBase" };
+                    return { error: "No burgers on DataBase" };
                 }
                 return burgers;
             }
             catch (error) {
-                console.error(error);
-                mongoose_1.default.connection.close();
+                (0, utils_1.restartConnection)();
+                return { error: `${error}` };
             }
         });
     }
@@ -45,13 +45,13 @@ class BurgersModels {
             try {
                 const burgerById = yield burger_1.default.findById(id);
                 if (burgerById === null) {
-                    return { message: "Burger not found" };
+                    return { error: "Burger not found" };
                 }
                 return burgerById;
             }
             catch (error) {
-                console.error(error);
-                mongoose_1.default.connection.close();
+                (0, utils_1.restartConnection)();
+                return { error: `${error}` };
             }
         });
     }
@@ -63,15 +63,15 @@ class BurgersModels {
                     price: newBurgerData.price,
                 });
                 if (checkBurger.length > 0) {
-                    return { message: "Burger already exists" };
+                    return { error: "Burger already exists" };
                 }
                 const newBurger = new burger_1.default(newBurgerData);
                 const result = yield newBurger.save();
                 return result;
             }
             catch (error) {
-                console.error(error);
-                mongoose_1.default.connection.close();
+                (0, utils_1.restartConnection)();
+                return { error: `${error}` };
             }
         });
     }
@@ -82,11 +82,11 @@ class BurgersModels {
                 if (burger) {
                     return "Document deleted succesfully";
                 }
-                return "Document doesn't exist";
+                return { error: "Document doesn't exist" };
             }
             catch (error) {
-                console.error(error);
-                mongoose_1.default.connection.close();
+                (0, utils_1.restartConnection)();
+                return { error: `${error}` };
             }
         });
     }
@@ -101,12 +101,12 @@ class BurgersModels {
                     return burger;
                 }
                 else {
-                    return { message: "Error has ocurred" };
+                    return { error: "Uknown error" };
                 }
             }
             catch (error) {
-                console.error(error);
-                mongoose_1.default.connection.close();
+                (0, utils_1.restartConnection)();
+                return { error: `${error}` };
             }
         });
     }

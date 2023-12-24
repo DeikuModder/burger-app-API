@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import Burger from "../schemas/burger";
 import { BurgerInterface } from "../types";
+import { restartConnection } from "../utils";
+
 export class BurgersModels {
   static async getAll<T>({ name }: { name: T }) {
     try {
@@ -10,7 +12,7 @@ export class BurgersModels {
         });
 
         if (burgerByName.length <= 0) {
-          return { message: "Burger not found" };
+          return { error: "Burger not found" };
         }
 
         return burgerByName;
@@ -19,12 +21,13 @@ export class BurgersModels {
       const burgers: BurgerInterface[] | undefined = await Burger.find();
 
       if (burgers.length <= 0) {
-        return { message: "No burgers on DataBase" };
+        return { error: "No burgers on DataBase" };
       }
 
       return burgers;
     } catch (error) {
-      console.error(error);
+      restartConnection();
+      return { error: `${error}` };
     }
   }
 
@@ -34,12 +37,13 @@ export class BurgersModels {
         await Burger.findById(id);
 
       if (burgerById === null) {
-        return { message: "Burger not found" };
+        return { error: "Burger not found" };
       }
 
       return burgerById;
     } catch (error) {
-      console.error(error);
+      restartConnection();
+      return { error: `${error}` };
     }
   }
 
@@ -51,14 +55,15 @@ export class BurgersModels {
       });
 
       if (checkBurger.length > 0) {
-        return { message: "Burger already exists" };
+        return { error: "Burger already exists" };
       }
 
       const newBurger = new Burger(newBurgerData);
       const result = await newBurger.save();
       return result;
     } catch (error) {
-      console.error(error);
+      restartConnection();
+      return { error: `${error}` };
     }
   }
 
@@ -70,9 +75,10 @@ export class BurgersModels {
         return "Document deleted succesfully";
       }
 
-      return "Document doesn't exist";
+      return { error: "Document doesn't exist" };
     } catch (error) {
-      console.error(error);
+      restartConnection();
+      return { error: `${error}` };
     }
   }
 
@@ -93,10 +99,11 @@ export class BurgersModels {
       if (burger) {
         return burger;
       } else {
-        return { message: "Error has ocurred" };
+        return { error: "Uknown error" };
       }
     } catch (error) {
-      console.error(error);
+      restartConnection();
+      return { error: `${error}` };
     }
   }
 }

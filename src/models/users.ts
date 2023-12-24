@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import User from "../schemas/user";
 import { UserInterface } from "../types";
+import { restartConnection } from "../utils";
 
 export class UsersModel {
   static async register(userObject: UserInterface) {
@@ -13,7 +14,7 @@ export class UsersModel {
       });
 
       if (checkUsername.length > 0 || checkEmail.length > 0) {
-        return { message: "Username or Email already exists" };
+        return { error: "Username or Email already exists" };
       }
 
       const user = new User(userObject);
@@ -22,7 +23,8 @@ export class UsersModel {
 
       return newUser;
     } catch (error) {
-      console.error(error);
+      restartConnection();
+      return { error: `${error}` };
     }
   }
 }

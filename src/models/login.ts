@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import User from "../schemas/user";
 import { LogedInUser, UserForToken } from "../types";
+import { restartConnection } from "../utils";
 
 dotenv.config();
 
@@ -33,7 +34,8 @@ export class LoginModel {
         token,
       };
     } catch (error) {
-      console.error(error);
+      restartConnection();
+      return { error: `${error}` };
     }
   }
 }

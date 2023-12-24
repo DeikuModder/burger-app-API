@@ -21,10 +21,12 @@ class LoginController {
                     passwordHash: password,
                 };
                 const checkUser = yield login_1.LoginModel.login(userObject);
-                res.json(checkUser);
+                checkUser.hasOwnProperty("error")
+                    ? res.status(400).json(checkUser)
+                    : res.json(checkUser);
             }
             catch (error) {
-                console.error(error);
+                res.status(500).send(`${error}`);
             }
         });
     }

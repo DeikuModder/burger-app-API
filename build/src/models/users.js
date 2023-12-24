@@ -13,8 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersModel = void 0;
-const mongoose_1 = __importDefault(require("mongoose"));
 const user_1 = __importDefault(require("../schemas/user"));
+const utils_1 = require("../utils");
 class UsersModel {
     static register(userObject) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -26,15 +26,15 @@ class UsersModel {
                     email: userObject.email,
                 });
                 if (checkUsername.length > 0 || checkEmail.length > 0) {
-                    return { message: "Username or Email already exists" };
+                    return { error: "Username or Email already exists" };
                 }
                 const user = new user_1.default(userObject);
                 const newUser = yield user.save();
                 return newUser;
             }
             catch (error) {
-                console.error(error);
-                mongoose_1.default.connection.close();
+                (0, utils_1.restartConnection)();
+                return { error: `${error}` };
             }
         });
     }
