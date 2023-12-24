@@ -36,7 +36,7 @@ function connectDB() {
 exports.connectDB = connectDB;
 function restartConnection() {
     return __awaiter(this, void 0, void 0, function* () {
-        yield mongoose_1.default.disconnect();
+        yield mongoose_1.default.connection.close();
         setTimeout(() => {
             connectDB();
         }, 5000);
