@@ -16,31 +16,33 @@ exports.restartConnection = exports.connectDB = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
 function connectDB() {
-    dotenv_1.default.config();
-    const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@burguer-app.nj6tkpl.mongodb.net/?retryWrites=true&w=majority`;
-    function connect() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                yield mongoose_1.default.connect(uri, {
-                    dbName: "burguers",
-                });
-                console.log("Connected to Database!");
-            }
-            catch (error) {
-                console.error(error);
-            }
-        });
-    }
-    connect();
+    return __awaiter(this, void 0, void 0, function* () {
+        dotenv_1.default.config();
+        const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@burguer-app.nj6tkpl.mongodb.net/?retryWrites=true&w=majority`;
+        function connect() {
+            return __awaiter(this, void 0, void 0, function* () {
+                try {
+                    yield mongoose_1.default.connect(uri, {
+                        dbName: "burguers",
+                    });
+                    console.log("Connected to Database!");
+                }
+                catch (error) {
+                    console.error(error);
+                }
+            });
+        }
+        yield connect();
+    });
 }
 exports.connectDB = connectDB;
 function restartConnection() {
     return __awaiter(this, void 0, void 0, function* () {
-        mongoose_1.default.disconnect();
+        yield mongoose_1.default.disconnect();
         console.log("Restarting server...");
-        setTimeout(() => {
-            connectDB();
-        }, 5000);
+        setTimeout(() => __awaiter(this, void 0, void 0, function* () {
+            yield connectDB();
+        }), 5000);
     });
 }
 exports.restartConnection = restartConnection;
