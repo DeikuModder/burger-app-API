@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { BurgersController } from "../../controllers/burgers";
 import authAdmin from "../../middlewares/authAdmin";
+import { restartConnection } from "../../utils";
 
 const burgersRouter = Router();
 

@@ -21,7 +21,8 @@ export function connectDB() {
 }
 
 export async function restartConnection() {
-  await mongoose.connection.close();
+  mongoose.disconnect();
+  console.log("Restarting server...");
   setTimeout(() => {
     connectDB();
   }, 5000);
