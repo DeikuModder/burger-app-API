@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
-export function connectDB() {
+export async function connectDB() {
   dotenv.config();
 
   const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@burguer-app.nj6tkpl.mongodb.net/?retryWrites=true&w=majority`;
@@ -17,13 +17,13 @@ export function connectDB() {
     }
   }
 
-  connect();
+  await connect();
 }
 
 export async function restartConnection() {
-  mongoose.disconnect();
+  await mongoose.disconnect();
   console.log("Restarting server...");
-  setTimeout(() => {
-    connectDB();
+  setTimeout(async () => {
+    await connectDB();
   }, 5000);
 }
