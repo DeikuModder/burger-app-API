@@ -29,7 +29,7 @@ class BurgersController {
                 const { name } = req.query;
                 const burgers = yield burgers_1.BurgersModels.getAll({ name });
                 burgers.hasOwnProperty("error")
-                    ? res.status(400).json(burgers)
+                    ? res.status(404).json(burgers)
                     : res.json(burgers);
             }
             catch (error) {
@@ -43,7 +43,7 @@ class BurgersController {
                 const { id } = req.params;
                 const burgers = yield burgers_1.BurgersModels.getById({ id });
                 (burgers === null || burgers === void 0 ? void 0 : burgers.hasOwnProperty("error"))
-                    ? res.status(400).json(burgers)
+                    ? res.status(404).json(burgers)
                     : res.json(burgers);
             }
             catch (error) {
@@ -72,7 +72,7 @@ class BurgersController {
                 const { id } = req.params;
                 const burgers = yield burgers_1.BurgersModels.delete({ id });
                 burgers.hasOwnProperty("error")
-                    ? res.status(400).json(burgers)
+                    ? res.status(404).json(burgers)
                     : res.json(burgers);
             }
             catch (error) {

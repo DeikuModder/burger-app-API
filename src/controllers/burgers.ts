@@ -9,7 +9,7 @@ export class BurgersController {
       const burgers = await BurgersModels.getAll<typeof name>({ name });
 
       burgers.hasOwnProperty("error")
-        ? res.status(400).json(burgers)
+        ? res.status(404).json(burgers)
         : res.json(burgers);
     } catch (error) {
       res.status(500).send(error);
@@ -22,7 +22,7 @@ export class BurgersController {
       const burgers = await BurgersModels.getById<typeof id>({ id });
 
       burgers?.hasOwnProperty("error")
-        ? res.status(400).json(burgers)
+        ? res.status(404).json(burgers)
         : res.json(burgers);
     } catch (error) {
       res.status(500).send(error);
@@ -50,7 +50,7 @@ export class BurgersController {
       const burgers = await BurgersModels.delete<typeof id>({ id });
 
       burgers.hasOwnProperty("error")
-        ? res.status(400).json(burgers)
+        ? res.status(404).json(burgers)
         : res.json(burgers);
     } catch (error) {
       res.status(500).send(error);
