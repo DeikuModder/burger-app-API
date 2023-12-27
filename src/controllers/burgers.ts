@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { BurgersModels } from "../models/burgers";
 import { BurgerInterface } from "../types";
-
 export class BurgersController {
   static async getAll(req: Request, res: Response) {
     try {
@@ -66,11 +65,11 @@ export class BurgersController {
         newBurgerData,
       });
 
-      "error" in burgers!
+      "error" in burgers
         ? res.status(burgers.code!).json(burgers.error)
         : res.json(burgers);
     } catch (error) {
-      res.status(500).send(`${error}`);
+      res.status(500).json(error);
     }
   }
 }

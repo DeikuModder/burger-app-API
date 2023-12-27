@@ -94,7 +94,7 @@ class BurgersController {
                     : res.json(burgers);
             }
             catch (error) {
-                res.status(500).send(`${error}`);
+                res.status(500).json(error);
             }
         });
     }

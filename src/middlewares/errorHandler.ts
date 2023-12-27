@@ -8,12 +8,11 @@ class AppErrorHandler {
     next: NextFunction
   ) {
     if (err.name === "SyntaxError") {
-      return res
-        .status(400)
-        .json({
-          error: "Unexpected type of data, check if input all inputs are valid",
-        });
+      return res.status(400).json({
+        error: "Unexpected type of data, check if input all inputs are valid",
+      });
     }
+
     next();
   }
 }

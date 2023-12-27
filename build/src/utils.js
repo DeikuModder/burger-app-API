@@ -56,13 +56,13 @@ function validateEmptyInput(burgerObject) {
 }
 exports.validateEmptyInput = validateEmptyInput;
 function validateInput(burgerObject) {
-    if (typeof burgerObject.price !== "number") {
+    if (typeof burgerObject.price !== "number" || burgerObject.price === null) {
         return false;
     }
-    if (typeof burgerObject.name !== "string") {
+    if (typeof burgerObject.name !== "string" || burgerObject.name === null) {
         return false;
     }
-    if (!Array.isArray(burgerObject.ingredients)) {
+    if (!Array.isArray(burgerObject.ingredients || burgerObject.ingredients === null)) {
         return false;
     }
     if (burgerObject.ingredients.some((ingredient) => typeof ingredient !== "string")) {
@@ -73,13 +73,16 @@ function validateInput(burgerObject) {
 exports.validateInput = validateInput;
 function validatePartialInput(burgerObject) {
     var _a;
-    if (burgerObject.name && typeof burgerObject.name !== "string") {
+    if ((burgerObject.name && typeof burgerObject.name !== "string") ||
+        burgerObject.name === null) {
         return false;
     }
-    if (burgerObject.price && typeof burgerObject.price !== "number") {
+    if ((burgerObject.price && typeof burgerObject.price !== "number") ||
+        burgerObject.price === null) {
         return false;
     }
-    if (burgerObject.ingredients && !Array.isArray(burgerObject.ingredients)) {
+    if (burgerObject.ingredients &&
+        !Array.isArray(burgerObject.ingredients || burgerObject.ingredients === null)) {
         return false;
     }
     if ((_a = burgerObject.ingredients) === null || _a === void 0 ? void 0 : _a.some((ingredient) => typeof ingredient !== "string")) {
@@ -91,10 +94,14 @@ exports.validatePartialInput = validatePartialInput;
 function validateUserCredentials(userObject) {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const { username, passwordHash, email } = userObject;
-    if (typeof username !== "string" || username.length < 3) {
+    if (typeof username !== "string" ||
+        username.length < 3 ||
+        username === null) {
         return false;
     }
-    if (typeof passwordHash !== "string" || passwordHash.length < 6) {
+    if (typeof passwordHash !== "string" ||
+        passwordHash.length < 6 ||
+        passwordHash === null) {
         return false;
     }
     return emailRegex.test(email);

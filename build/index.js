@@ -10,6 +10,7 @@ const users_1 = __importDefault(require("./src/v1/routes/users"));
 const login_1 = __importDefault(require("./src/v1/routes/login"));
 const welcomeMessage_1 = __importDefault(require("./src/welcomeMessage"));
 const utils_1 = require("./src/utils");
+const errorHandler_1 = __importDefault(require("./src/middlewares/errorHandler"));
 const PORT = process.env.PORT || 1235;
 const app = (0, express_1.default)();
 app.disable("x-powered-by");
@@ -19,6 +20,7 @@ app.get("/", (_req, res) => {
     res.send(welcomeMessage_1.default);
 });
 (0, utils_1.connectDB)();
+app.use(errorHandler_1.default.errorHanlder);
 app.use("/api/v1/burgers", burgers_1.default);
 app.use("/api/v1/users", users_1.default);
 app.use("/login", login_1.default);
