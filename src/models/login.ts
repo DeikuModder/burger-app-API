@@ -18,7 +18,7 @@ export class LoginModel {
           : await bcrypt.compare(userObject.passwordHash, user.passwordHash);
 
       if (!(user && isPasswordCorrect)) {
-        return { error: "Invalid user or password" };
+        return { error: "Invalid user or password", code: 400 };
       }
 
       const userForToken: UserForToken = {

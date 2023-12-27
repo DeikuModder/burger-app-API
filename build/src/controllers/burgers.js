@@ -28,8 +28,8 @@ class BurgersController {
             try {
                 const { name } = req.query;
                 const burgers = yield burgers_1.BurgersModels.getAll({ name });
-                burgers.hasOwnProperty("error")
-                    ? res.status(404).json(burgers)
+                "error" in burgers
+                    ? res.status(burgers.code).json(burgers.error)
                     : res.json(burgers);
             }
             catch (error) {
@@ -42,8 +42,8 @@ class BurgersController {
             try {
                 const { id } = req.params;
                 const burgers = yield burgers_1.BurgersModels.getById({ id });
-                (burgers === null || burgers === void 0 ? void 0 : burgers.hasOwnProperty("error"))
-                    ? res.status(404).json(burgers)
+                "error" in burgers
+                    ? res.status(burgers.code).json(burgers.error)
                     : res.json(burgers);
             }
             catch (error) {
@@ -57,8 +57,8 @@ class BurgersController {
                 const _a = req.body, { name, price } = _a, data = __rest(_a, ["name", "price"]);
                 const newBurger = Object.assign({ name, price }, data);
                 const burgers = yield burgers_1.BurgersModels.create(newBurger);
-                (burgers === null || burgers === void 0 ? void 0 : burgers.hasOwnProperty("error"))
-                    ? res.status(400).json(burgers)
+                "error" in burgers
+                    ? res.status(burgers.code).json(burgers.error)
                     : res.json(burgers);
             }
             catch (error) {
@@ -71,9 +71,8 @@ class BurgersController {
             try {
                 const { id } = req.params;
                 const burgers = yield burgers_1.BurgersModels.delete({ id });
-                burgers.hasOwnProperty("error")
-                    ? res.status(404).json(burgers)
-                    : res.json(burgers);
+                "error" in burgers && res.status(burgers.code).json(burgers.error);
+                "message" in burgers && res.json(burgers.message);
             }
             catch (error) {
                 res.status(500).send(error);
@@ -90,8 +89,8 @@ class BurgersController {
                     id,
                     newBurgerData,
                 });
-                burgers.hasOwnProperty("error")
-                    ? res.status(400).json(burgers)
+                "error" in burgers
+                    ? res.status(burgers.code).json(burgers.error)
                     : res.json(burgers);
             }
             catch (error) {

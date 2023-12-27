@@ -18,8 +18,8 @@ export class UsersController {
 
       const savedUser = await UsersModel.register(newUserObject);
 
-      savedUser.hasOwnProperty("error")
-        ? res.status(400).json(savedUser)
+      "error" in savedUser!
+        ? res.status(savedUser.code!).json(savedUser.error)
         : res.json(savedUser);
     } catch (error) {
       res.status(500).send(`${error}`);

@@ -19,6 +19,9 @@ class UsersModel {
     static register(userObject) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                const checkUser = (0, utils_1.validateUserCredentials)(userObject);
+                if (!checkUser)
+                    return { error: "Invalid input type", code: 422 };
                 const checkUsername = yield user_1.default.find({
                     username: userObject.username,
                 });
@@ -26,7 +29,7 @@ class UsersModel {
                     email: userObject.email,
                 });
                 if (checkUsername.length > 0 || checkEmail.length > 0) {
-                    return { error: "Username or Email already exists" };
+                    return { error: "Username or Email already exists", code: 422 };
                 }
                 const user = new user_1.default(userObject);
                 const newUser = yield user.save();

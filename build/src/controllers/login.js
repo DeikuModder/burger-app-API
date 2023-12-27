@@ -21,8 +21,8 @@ class LoginController {
                     passwordHash: password,
                 };
                 const checkUser = yield login_1.LoginModel.login(userObject);
-                checkUser.hasOwnProperty("error")
-                    ? res.status(400).json(checkUser)
+                "error" in checkUser
+                    ? res.status(checkUser.code).json(checkUser.error)
                     : res.json(checkUser);
             }
             catch (error) {

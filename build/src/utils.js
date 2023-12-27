@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.restartConnection = exports.connectDB = void 0;
+exports.validateUserCredentials = exports.validatePartialInput = exports.validateInput = exports.validateEmptyInput = exports.restartConnection = exports.connectDB = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
 function connectDB() {
@@ -46,3 +46,57 @@ function restartConnection() {
     });
 }
 exports.restartConnection = restartConnection;
+function validateEmptyInput(burgerObject) {
+    if (burgerObject.name === undefined &&
+        burgerObject.price === undefined &&
+        burgerObject.ingredients === undefined) {
+        return false;
+    }
+    return true;
+}
+exports.validateEmptyInput = validateEmptyInput;
+function validateInput(burgerObject) {
+    if (typeof burgerObject.price !== "number") {
+        return false;
+    }
+    if (typeof burgerObject.name !== "string") {
+        return false;
+    }
+    if (!Array.isArray(burgerObject.ingredients)) {
+        return false;
+    }
+    if (burgerObject.ingredients.some((ingredient) => typeof ingredient !== "string")) {
+        return false;
+    }
+    return true;
+}
+exports.validateInput = validateInput;
+function validatePartialInput(burgerObject) {
+    var _a;
+    if (burgerObject.name && typeof burgerObject.name !== "string") {
+        return false;
+    }
+    if (burgerObject.price && typeof burgerObject.price !== "number") {
+        return false;
+    }
+    if (burgerObject.ingredients && !Array.isArray(burgerObject.ingredients)) {
+        return false;
+    }
+    if ((_a = burgerObject.ingredients) === null || _a === void 0 ? void 0 : _a.some((ingredient) => typeof ingredient !== "string")) {
+        return false;
+    }
+    return true;
+}
+exports.validatePartialInput = validatePartialInput;
+function validateUserCredentials(userObject) {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const { username, passwordHash, email } = userObject;
+    if (typeof username !== "string" || username.length < 3) {
+        return false;
+    }
+    if (typeof passwordHash !== "string" || passwordHash.length < 6) {
+        return false;
+    }
+    return emailRegex.test(email);
+}
+exports.validateUserCredentials = validateUserCredentials;

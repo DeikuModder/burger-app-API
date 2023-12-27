@@ -8,8 +8,8 @@ export class BurgersController {
       const { name } = req.query;
       const burgers = await BurgersModels.getAll<typeof name>({ name });
 
-      burgers.hasOwnProperty("error")
-        ? res.status(404).json(burgers)
+      "error" in burgers
+        ? res.status(burgers.code!).json(burgers.error)
         : res.json(burgers);
     } catch (error) {
       res.status(500).send(error);
@@ -21,8 +21,8 @@ export class BurgersController {
       const { id } = req.params;
       const burgers = await BurgersModels.getById<typeof id>({ id });
 
-      burgers?.hasOwnProperty("error")
-        ? res.status(404).json(burgers)
+      "error" in burgers!
+        ? res.status(burgers.code!).json(burgers.error)
         : res.json(burgers);
     } catch (error) {
       res.status(500).send(error);
@@ -36,8 +36,8 @@ export class BurgersController {
       const newBurger: BurgerInterface = { name, price, ...data };
       const burgers = await BurgersModels.create(newBurger);
 
-      burgers?.hasOwnProperty("error")
-        ? res.status(400).json(burgers)
+      "error" in burgers!
+        ? res.status(burgers.code!).json(burgers.error)
         : res.json(burgers);
     } catch (error) {
       res.status(500).send(error);
@@ -49,9 +49,8 @@ export class BurgersController {
       const { id } = req.params;
       const burgers = await BurgersModels.delete<typeof id>({ id });
 
-      burgers.hasOwnProperty("error")
-        ? res.status(404).json(burgers)
-        : res.json(burgers);
+      "error" in burgers! && res.status(burgers.code!).json(burgers.error);
+      "message" in burgers! && res.json(burgers.message);
     } catch (error) {
       res.status(500).send(error);
     }
@@ -67,8 +66,8 @@ export class BurgersController {
         newBurgerData,
       });
 
-      burgers.hasOwnProperty("error")
-        ? res.status(400).json(burgers)
+      "error" in burgers!
+        ? res.status(burgers.code!).json(burgers.error)
         : res.json(burgers);
     } catch (error) {
       res.status(500).send(`${error}`);

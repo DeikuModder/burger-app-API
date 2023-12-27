@@ -14,8 +14,8 @@ export class LoginController {
 
       const checkUser = await LoginModel.login(userObject);
 
-      checkUser.hasOwnProperty("error")
-        ? res.status(400).json(checkUser)
+      "error" in checkUser!
+        ? res.status(checkUser.code!).json(checkUser.error)
         : res.json(checkUser);
     } catch (error) {
       res.status(500).send(`${error}`);

@@ -28,7 +28,7 @@ class LoginModel {
                     ? false
                     : yield bcrypt_1.default.compare(userObject.passwordHash, user.passwordHash);
                 if (!(user && isPasswordCorrect)) {
-                    return { error: "Invalid user or password" };
+                    return { error: "Invalid user or password", code: 400 };
                 }
                 const userForToken = {
                     id: user._id,

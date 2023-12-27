@@ -27,8 +27,8 @@ class UsersController {
                     email,
                 };
                 const savedUser = yield users_1.UsersModel.register(newUserObject);
-                savedUser.hasOwnProperty("error")
-                    ? res.status(400).json(savedUser)
+                "error" in savedUser
+                    ? res.status(savedUser.code).json(savedUser.error)
                     : res.json(savedUser);
             }
             catch (error) {

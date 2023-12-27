@@ -22,3 +22,14 @@ export interface UserForToken {
   id: mongoose.Types.ObjectId;
   username: string;
 }
+
+export type UserReturnType =
+  | UserInterface
+  | UserInterface[]
+  | { error?: string; code?: number };
+
+export type BurgerGetAllResult =
+  | BurgerInterface
+  | BurgerInterface[]
+  | { error?: string; code?: number }
+  | { message?: string };

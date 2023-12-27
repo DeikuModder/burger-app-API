@@ -24,13 +24,13 @@ class BurgersModels {
                         name: name,
                     });
                     if (burgerByName.length <= 0) {
-                        return { error: "Burger not found" };
+                        return { error: "Burger not found", code: 404 };
                     }
                     return burgerByName;
                 }
                 const burgers = yield burger_1.default.find();
                 if (burgers.length <= 0) {
-                    return { error: "No burgers on DataBase" };
+                    return { error: "No burgers on DataBase", code: 404 };
                 }
                 return burgers;
             }
@@ -45,7 +45,7 @@ class BurgersModels {
             try {
                 const burgerById = yield burger_1.default.findById(id);
                 if (burgerById === null) {
-                    return { error: "Burger not found" };
+                    return { error: "Burger not found", code: 404 };
                 }
                 return burgerById;
             }
@@ -58,15 +58,24 @@ class BurgersModels {
     static create(newBurgerData) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                const checkEmpty = (0, utils_1.validateEmptyInput)(newBurgerData);
+                const checkInput = (0, utils_1.validateInput)(newBurgerData);
+                if (!checkEmpty)
+                    return { error: "Please fill out at least one field", code: 400 };
+                if (!checkInput)
+                    return {
+                        error: "Invalid or non existing input, all inputs must be filled",
+                        code: 422,
+                    };
                 const checkBurger = yield burger_1.default.find({
                     name: newBurgerData.name,
                     price: newBurgerData.price,
                 });
                 if (checkBurger.length > 0) {
-                    return { error: "Burger already exists" };
+                    return { error: "Burger already exists", code: 422 };
                 }
                 const newBurger = new burger_1.default(newBurgerData);
-                const result = yield newBurger.save();
+                const result = (yield newBurger.save());
                 return result;
             }
             catch (error) {
@@ -80,9 +89,9 @@ class BurgersModels {
             try {
                 const burger = yield burger_1.default.findByIdAndDelete(id);
                 if (burger) {
-                    return "Document deleted succesfully";
+                    return { message: "Document deleted succesfully" };
                 }
-                return { error: "Document doesn't exist" };
+                return { error: "Document doesn't exist", code: 404 };
             }
             catch (error) {
                 (0, utils_1.restartConnection)();
@@ -93,6 +102,12 @@ class BurgersModels {
     static update({ id, newBurgerData, }) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                const checkEmpty = (0, utils_1.validateEmptyInput)(newBurgerData);
+                const checkInput = (0, utils_1.validatePartialInput)(newBurgerData);
+                if (!checkEmpty)
+                    return { error: "Please fill out at least one field", code: 400 };
+                if (!checkInput)
+                    return { error: "Invalid input type", code: 422 };
                 const burger = yield burger_1.default.findByIdAndUpdate(id, newBurgerData, {
                     new: true,
                     runValidators: true,
