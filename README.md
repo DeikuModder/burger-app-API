@@ -74,6 +74,13 @@ burger_name: `Cheese_Burger`
 
 Retrieve one burger by it's `_id`:
 
+## Techs
+
+- NodeJs
+- Express Js
+- TypeScript
+- Mongoose
+
 ## Note
 
 If an error or a bug happens please notify me, thanks!.
